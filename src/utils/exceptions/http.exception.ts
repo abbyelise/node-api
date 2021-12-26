@@ -7,6 +7,14 @@ class HttpException extends Error {
     this.status = status;
     this.message = message;
   }
+
+  public toString() {
+    const str = {
+      status: this.status,
+      message: this.message,
+    };
+    return str;
+  }
 };
 
 export default HttpException;

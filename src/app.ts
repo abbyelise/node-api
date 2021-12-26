@@ -1,4 +1,4 @@
-import express, { Application } from 'express';
+import express, { Application, Router } from 'express';
 import mongoose from 'mongoose';
 import compression from 'compression';
 import cors from 'cors';
@@ -7,10 +7,12 @@ import helmet from 'helmet';
 
 import Controller from '@/utils/interfaces/controller.interface';
 import ErrorMiddleware from './middleware/error.middleware';
+import HttpException from './utils/exceptions/http.exception';
 
 class App {
     public express: Application;
     public port: number;
+    public router = Router();
 
     constructor(controllers: Controller[], port: number) {
         this.express = express();
@@ -52,6 +54,9 @@ class App {
     private initializeControllers(controllers: Controller[]): void {
         controllers.forEach((controller: Controller) => {
             this.express.use('/api', controller.router);
+        });
+        this.express.use(function (req, res, next) {
+            res.status(404).json({ data: new HttpException(404, "Sorry, can't find the requested resource.").toString() });
         });
     }
 

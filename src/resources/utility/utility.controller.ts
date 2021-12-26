@@ -5,7 +5,7 @@ import HttpException from '@/utils/exceptions/http.exception';
 import UtilityService from './utility.service';
 
 class UtilityController implements Controller {
-  public path = '/utilities';
+  public path = '/utility';
   public router = Router();
   private utilityService = new UtilityService();
 
